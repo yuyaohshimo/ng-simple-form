@@ -1,0 +1,9 @@
+.simpleform
+  form(novalidate ng-submit="send()")
+    div(ng-repeat="input in inputs")
+      label(ng-bind="input.label")
+      input(type="input.type" placeholder="{{ input.placeholder }}")
+    button(type="submit" ng-disabled="sending || hasError")
+      span(ng-show="sending") kurukuru
+      span(ng-show="!sending && !hasError" ng-bind="submit.label")
+      span(ng-show="!sending && hasError" ng-bind="errorMsg")
