@@ -7,7 +7,7 @@
  */
 
 (function() {
-  angular.module('simpleForm', [])
+  angular.module('simpleForm', ['ngMessages'])
 
   .constant('simpleFormConfig', {
 
@@ -36,6 +36,17 @@
   }])
 
   .controller('simpleFormController', ['$scope', 'simpleFormService', function($scope, simpleFormService) {
+    $scope.sending = false;
+    $scope.hasError = false;
+
+    $scope.getCtrl = function() {
+      return $scope[$scope.name];
+    };
+
+    $scope.getInputCtrl = function(name) {
+      return $scope[$scope.name][name];
+    };
+
     $scope.send = function(e) {
       var url = $scope.submit.url;
       var headers = $scope.submit.headers;
@@ -46,6 +57,7 @@
       .then(function() {
         $scope.submit.callback.success();
       }, function() {
+        $scope.hasError = true;
         $scope.submit.callback.error();
       });
     };
@@ -57,12 +69,12 @@
       replace: true,
       template: '{html}',
       scope: {
+        name: '=',
         inputs: '=',
         submit: '='
       },
       controller: 'simpleFormController',
       link: function(scope, element, attrs, ctrls) {
-
       }
     };
   });

@@ -1,9 +1,14 @@
 .simpleform
-  form(novalidate ng-submit="send()")
-    div(ng-repeat="input in inputs")
+  form(name="{{ name }}" ng-submit="send()" novalidate)
+    div(class="simpleform__input" ng-repeat-start="input in inputs")
       label(ng-bind="input.label")
-      input(type="input.type" placeholder="{{ input.placeholder }}")
-    button(type="submit" ng-disabled="sending || hasError")
-      span(ng-show="sending") kurukuru
+      input(name="{{ input.name }}" type="{{ input.type }}" placeholder="{{ input.placeholder }}" ng-model="a" ng-required="input.required" ng-pattern="input.pattern")
+      i.fa(ng-class="{ 'fa-exclamation-circle': getInputCtrl(input.name).$invalid && !getInputCtrl(input.name).$pristine, 'fa-check': getInputCtrl(input.name).$valid && !getInputCtrl(input.name).$pristine }")
+    div(ng-if="!getInputCtrl(input.name).$pristine" class="simpleform__help" ng-repeat-end)
+      div(ng-messages="getInputCtrl(input.name).$error")
+        p(ng-message-exp="error" ng-repeat="(error, message) in input.errMsgs") {{ message }}
+    button(type="submit" ng-disabled="getCtrl().$pristine || sending || getCtrl().$invalid")
+      span(ng-show="sending")
+        i.fa.fa-circle-o-notch.fa-spin
       span(ng-show="!sending && !hasError" ng-bind="submit.label")
-      span(ng-show="!sending && hasError" ng-bind="errorMsg")
+      span(ng-show="!sending && hasError" ng-bind="submit.error")
