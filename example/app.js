@@ -5,9 +5,14 @@ angular.module('test', ['simpleForm']);
 angular.module('test')
 
 .controller('TestCtrl', ['$scope', function($scope) {
+  var mockURLs = {
+    success: 'http://demo5712530.mockable.io/success',
+    error: 'http://demo5712530.mockable.io/error'
+  };
+
   $scope.success = true;
   $scope.$watch('success', function() {
-    $scope.submit.url = $scope.success ? 'http://demo5712530.mockable.io/success' : 'http://demo5712530.mockable.io/error';
+    $scope.submit.url = $scope.success ? mockURLs.success : mockURLs.error;
   });
 
   $scope.name = 'sample';
@@ -16,7 +21,7 @@ angular.module('test')
     label: 'Send Data',
     error: 'Error!',
     method: 'POST',
-    url: 'http://demo5712530.mockable.io/success',
+    url: mockURLs.success,
     headers: {},
     callback: {
       success: function() {
