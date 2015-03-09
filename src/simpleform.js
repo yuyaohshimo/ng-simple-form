@@ -53,10 +53,14 @@
       var method = $scope.submit.method;
       var params = {};
 
+      $scope.hasError = false;
+      $scope.sending = true;
       simpleFormService.sendRequest(url, headers, method, params)
       .then(function() {
+        $scope.sending = false;
         $scope.submit.callback.success();
       }, function() {
+        $scope.sending = false;
         $scope.hasError = true;
         $scope.submit.callback.error();
       });
