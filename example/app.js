@@ -1,8 +1,14 @@
+'use strict';
+
 angular.module('test', ['simpleForm']);
 
 angular.module('test')
 
 .controller('TestCtrl', ['$scope', function($scope) {
+  $scope.success = true;
+  $scope.$watch('success', function() {
+    $scope.submit.url = $scope.success ? 'http://demo5712530.mockable.io/success' : 'http://demo5712530.mockable.io/error';
+  });
 
   $scope.name = 'sample';
 
@@ -10,7 +16,7 @@ angular.module('test')
     label: 'Send Data',
     error: 'Error!',
     method: 'POST',
-    url: '/api/test',
+    url: 'http://demo5712530.mockable.io/success',
     headers: {},
     callback: {
       success: function() {
